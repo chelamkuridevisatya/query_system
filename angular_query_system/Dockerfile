@@ -6,7 +6,7 @@ COPY . .
 RUN npm run build --prod
 
 FROM nginx:latest
-COPY --from=build /app/dist/angular-query-system /usr/share/nginx/html
+COPY --from=build /app/dist/angular_query_system /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
