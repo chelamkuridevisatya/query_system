@@ -14,7 +14,7 @@ services:
     
 
   frontend:
-    build: ./angular-query-system
+    build: ./angular_query_system
     container_name: angular-frontend
     restart: always
     ports:

@@ -60,7 +60,11 @@
           "configurations": {
             "production": {
               "buildTarget": "angular_query_system:build:production"
+<<<<<<< HEAD
             }
+=======
+            },
+>>>>>>> b897a33 (update)
             "development": {
               "buildTarget": "angular_query_system:build:development"
             }
