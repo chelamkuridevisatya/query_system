@@ -1,0 +1,61 @@
+/* App Component Global Styles */
+
+/* Container for the entire content */
+div {
+    max-width: 1200px; /* Limit the width */
+    margin: 0 auto; /* Center align the content */
+    padding: 20px; /* Padding around the content */
+    font-family: 'Arial', sans-serif; /* Set a clean font */
+    background-color: #f4f7fc; /* Light background color */
+  }
+  
+  /* Heading Styles */
+  h1 {
+    color: #333; /* Dark color for the heading */
+    text-align: center; /* Center the heading */
+    font-size: 36px; /* Set font size */
+    margin-bottom: 20px; /* Space below the heading */
+  }
+  
+  /* Navigation Bar */
+  nav {
+    display: flex;
+    justify-content: center; /* Center the navigation links */
+    gap: 15px; /* Space between the links */
+    font-size: 18px; /* Set font size for links */
+  }
+  
+  nav a {
+    text-decoration: none; /* Remove underline */
+    color: #007bff; /* Primary blue color */
+    font-weight: bold; /* Make the links bold */
+    padding: 8px 15px; /* Add padding around the links */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
+  }
+  
+  nav a:hover {
+    background-color: #007bff; /* Change background color on hover */
+    color: white; /* Change text color on hover */
+  }
+  
+  router-outlet {
+    margin-top: 20px; /* Add margin above the outlet */
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    h1 {
+      font-size: 28px; /* Smaller font size on mobile */
+    }
+  
+    nav {
+      flex-direction: column; /* Stack links vertically on smaller screens */
+      gap: 10px;
+    }
+  
+    nav a {
+      font-size: 16px; /* Smaller text on mobile */
+    }
+  }
+  

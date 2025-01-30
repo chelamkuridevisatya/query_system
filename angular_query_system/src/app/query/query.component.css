@@ -1,0 +1,85 @@
+/* Query Component Styles */
+
+/* Container for the entire query form */
+div {
+    max-width: 600px; /* Limit the width of the form */
+    margin: 0 auto; /* Center the form */
+    padding: 20px; /* Padding around the form */
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px; /* Rounded corners for the form */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+  
+  /* Heading for the query form */
+  h2 {
+    text-align: center; /* Center-align the heading */
+    color: #333; /* Dark color for the heading */
+    font-size: 28px; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+  }
+  
+  /* Textarea Styles for the query input */
+  textarea {
+    width: 100%; /* Full width input field */
+    padding: 12px; /* Padding inside the textarea */
+    margin: 10px 0; /* Space between textarea and button */
+    border: 1px solid #ccc; /* Light border color */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size for input text */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    resize: vertical; /* Allow vertical resizing */
+  }
+  
+  /* Textarea Focus Styles */
+  textarea:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove outline to prevent focus ring */
+  }
+  
+  /* Send Query Button */
+  button {
+    width: 100%; /* Full width button */
+    padding: 12px; /* Padding inside the button */
+    background-color: #007bff; /* Blue background for the button */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 18px; /* Font size for the button text */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+  }
+  
+  button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  /* Response Section */
+  h3 {
+    margin-top: 20px; /* Space above the response */
+    color: #333; /* Dark color for the heading */
+    font-size: 22px; /* Font size for the heading */
+  }
+  
+  p {
+    font-size: 16px; /* Font size for the response text */
+    color: #666; /* Lighter color for the response text */
+    word-wrap: break-word; /* Ensure long text doesn't overflow */
+    white-space: pre-wrap; /* Preserve whitespace formatting in response */
+  }
+  
+  /* Responsive Design for smaller screens */
+  @media screen and (max-width: 768px) {
+    div {
+      width: 90%; /* Adjust form width for smaller screens */
+      padding: 15px; /* Reduce padding on smaller screens */
+    }
+  
+    h2 {
+      font-size: 24px; /* Smaller font size for the heading on mobile */
+    }
+  
+    button {
+      font-size: 16px; /* Smaller font size for the button */
+    }
+  }
+  

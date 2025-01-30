@@ -1,0 +1,86 @@
+/* Sign Up Component Styles */
+
+/* Container for the entire sign-up form */
+div {
+    max-width: 500px; /* Limit the width of the form */
+    margin: 0 auto; /* Center the form */
+    padding: 20px; /* Padding around the form */
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px; /* Rounded corners for the form */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  }
+  
+  /* Heading for the sign-up form */
+  h2 {
+    text-align: center; /* Center-align the heading */
+    color: #333; /* Dark color for the heading */
+    font-size: 28px; /* Larger font size for the heading */
+    margin-bottom: 20px; /* Space below the heading */
+  }
+  
+  /* Styles for the form inputs */
+  input[type="text"],
+  input[type="password"] {
+    width: 100%; /* Full width input fields */
+    padding: 12px; /* Padding inside the input fields */
+    margin: 10px 0; /* Space between input fields */
+    border: 1px solid #ccc; /* Light border color */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size for input text */
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
+  }
+  
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove outline to prevent focus ring */
+  }
+  
+  /* Submit button styling */
+  button[type="submit"] {
+    width: 100%; /* Full width button */
+    padding: 12px; /* Padding inside the button */
+    background-color: #28a745; /* Green background for the button */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 18px; /* Font size for the button text */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+  
+  /* Error and Success messages */
+  p {
+    text-align: center; /* Center-align the messages */
+    font-size: 14px; /* Font size for error/success messages */
+    margin-top: 10px; /* Space above the messages */
+  }
+  
+  p[style="color: red;"] {
+    color: red; /* Red color for error message */
+  }
+  
+  p[style="color: green;"] {
+    color: green; /* Green color for success message */
+  }
+  
+  /* Responsive Design for smaller screens */
+  @media screen and (max-width: 768px) {
+    div {
+      width: 90%; /* Adjust form width for smaller screens */
+      padding: 15px; /* Reduce padding on smaller screens */
+    }
+  
+    h2 {
+      font-size: 24px; /* Smaller font size for the heading on mobile */
+    }
+  
+    button[type="submit"] {
+      font-size: 16px; /* Smaller font size for the button */
+    }
+  }
+  
