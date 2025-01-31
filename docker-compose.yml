@@ -23,7 +23,7 @@ services:
       - backend
 
   nginx:
-    image: nginx:latest
+    build: ./nginx
     container_name: nginx-proxy
     restart: always
     ports:
