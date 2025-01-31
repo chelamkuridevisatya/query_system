@@ -22,18 +22,18 @@ jobs:
       - name: Build and Push Backend
         run: |
           docker build -t django-backend ./query_system
-          docker tag django-backend:latest ${{ secrets.DOCKER_USERNAME }}/query_system/qs-django-backend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/query_system/qs-django-backend:latest
+          docker tag django-backend:latest ${{ secrets.DOCKER_USERNAME }}/query_system:qs-django-backend
+          docker push ${{ secrets.DOCKER_USERNAME }}/query_system:qs-django-backend
 
       - name: Build and Push Frontend
         run: |
           docker build -t angular-frontend ./angular_query_system
-          docker tag angular-frontend:latest ${{ secrets.DOCKER_USERNAME }}/query_system/qs-angular-frontend:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/query_system/qs-angular-frontend:latest
+          docker tag angular-frontend:latest ${{ secrets.DOCKER_USERNAME }}/query_system:qs-angular-frontend
+          docker push ${{ secrets.DOCKER_USERNAME }}/query_system:qs-angular-frontend
 
       - name: Build and Push Nginx
         run: |
           docker-compose build nginx
-          docker tag nginx-proxy:latest ${{ secrets.DOCKER_USERNAME }}/query_system/qs-nginx-proxy:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/query_system/qs-nginx-proxy:latest
+          docker tag nginx-proxy:latest ${{ secrets.DOCKER_USERNAME }}/query_system:qs-nginx-proxy
+          docker push ${{ secrets.DOCKER_USERNAME }}/query_system:qs-nginx-proxy
 
