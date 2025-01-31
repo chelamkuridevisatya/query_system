@@ -21,23 +21,38 @@ jobs:
 
       - name: Build and Push Backend
         run: |
-          docker build -t django-backend ./query_system
-          docker tag django-backend:latest ${{ secrets.DOCKER_USERNAME }}/query_system:qs-django-backend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/query_system:qs-django-backend ./query_system
           docker push ${{ secrets.DOCKER_USERNAME }}/query_system:qs-django-backend
 
       - name: Build and Push Frontend
         run: |
-          docker build -t angular-frontend ./angular_query_system
-          docker tag angular-frontend:latest ${{ secrets.DOCKER_USERNAME }}/query_system:qs-angular-frontend
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/query_system:qs-angular-frontend ./angular_query_system
           docker push ${{ secrets.DOCKER_USERNAME }}/query_system:qs-angular-frontend
-      - name: Set up Docker Compose
-        run: |
-          curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-          chmod +x /usr/local/bin/docker-compose
 
       - name: Build and Push Nginx
         run: |
-          docker-compose build nginx
-          docker tag nginx-proxy:latest ${{ secrets.DOCKER_USERNAME }}/query_system:qs-nginx-proxy
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/query_system:qs-nginx-proxy ./nginx
           docker push ${{ secrets.DOCKER_USERNAME }}/query_system:qs-nginx-proxy
 
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Pull latest images
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/query_system:qs-django-backend
+          docker pull ${{ secrets.DOCKER_USERNAME }}/query_system:qs-angular-frontend
+          docker pull ${{ secrets.DOCKER_USERNAME }}/query_system:qs-nginx-proxy
+
+      - name: Deploy with Docker Compose
+        run: |
+          docker-compose up -d
