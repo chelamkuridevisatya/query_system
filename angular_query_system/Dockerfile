@@ -7,7 +7,8 @@ RUN npm run build --prod
 
 FROM nginx:latest
 COPY --from=build /app/dist/angular_query_system /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY /nginx/ngnix.config /etc/nginx/conf.d/default.conf
+
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
