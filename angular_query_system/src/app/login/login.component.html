@@ -1,25 +1,25 @@
-<div>
-    <h2>Login</h2>
-    <form (ngSubmit)="login()">
-      <input
-        type="text"
-        [(ngModel)]="username"
-        placeholder="Username"
-        name="username"
-        required
-      />
-      <br />
-      <input
-        type="password"
-        [(ngModel)]="password"
-        placeholder="Password"
-        name="password"
-        required
-      />
-      <br />
-      <button type="submit">Login</button>
-    </form>
-    <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
-    <p *ngIf="successMessage" style="color: green;">{{ successMessage }}</p>
-  </div>
-  
+<div class="login-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <input
+      type="text"
+      [(ngModel)]="username"
+      placeholder="Username"
+      name="username"
+      required
+    />
+    <br />
+    <input
+      type="password"
+      [(ngModel)]="password"
+      placeholder="Password"
+      name="password"
+      required
+    />
+    <br />
+    <a (click)="forgotPassword()" class="forgot-link">Forgot Password?</a>
+    <button type="submit">Login</button>
+  </form>
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+</div>

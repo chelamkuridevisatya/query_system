@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';  // Import Router for navigation
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http'; // Import HttpClient
 
 @Component({
   selector: 'app-login',
@@ -16,37 +17,48 @@ export class LoginComponent {
   accessToken: string = '';
   refreshToken: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private http: HttpClient // Inject HttpClient
+  ) {}
 
   login() {
     if (this.username.trim() && this.password.trim()) {
       this.authService.login(this.username, this.password).subscribe(
         (response) => {
-          // Store the tokens if needed
           this.accessToken = response.access;
           this.refreshToken = response.refresh;
 
-          // Store the access token in localStorage (optional)
           localStorage.setItem('accessToken', this.accessToken);
           localStorage.setItem('refreshToken', this.refreshToken);
 
-          // Show success message
           this.successMessage = 'Login successful!';
           this.errorMessage = '';
 
-          // Redirect to the query page after successful login
-          this.router.navigate(['/query']);
+          this.router.navigate(['/query']); // Redirect to query page
         },
         (error) => {
-          // Show error message if login fails
           this.errorMessage = error.error.error || 'Login failed.';
           this.successMessage = '';
         }
       );
     } else {
-      // Handle empty username or password
       this.errorMessage = 'Username and password are required.';
     }
   }
-}
 
+  forgotPassword() {
+    const email = prompt('Enter your registered email:');
+    if (email) {
+      this.http.post('http://localhost:8000/api/forgot-password/', { email }).subscribe(
+        (response) => {
+          alert('Reset link has been sent to your email.');
+        },
+        (error) => {
+          alert('Error: ' + (error.error.error || 'Something went wrong.'));
+        }
+      );
+    }
+  }
+}

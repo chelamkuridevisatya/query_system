@@ -2,9 +2,11 @@
 Django>=4.0,<5.0
 djangorestframework>=3.14.0
 djangorestframework-simplejwt>=5.2.2  
+sqlparse==0.2.4
 #psycopg2-binary>=2.9.9  # PostgreSQL (if using PostgreSQL)
 pymongo>=4.5.0  
 django-cors-headers>=4.3.1  
+django-allauth
 django-environ>=0.11.2  
 pydantic>=2.0 
 langchain>=0.1.0  

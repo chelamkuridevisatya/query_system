@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False") == "True"
+DEBUG = os.getenv("DEBUG", "True") == "True"
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']  # Add your allowed hosts
 
@@ -77,7 +77,8 @@ DATABASES = {
             "host": os.getenv("MONGO_URI"),
             "username": os.getenv("MONGO_USERNAME"),
             "password": os.getenv("MONGO_PASSWORD"),
-            "authSource": os.getenv("MONGO_AUTH_SOURCE"), # Authentication source database
+            "authSource": os.getenv("MONGO_AUTH_SOURCE"),
+            
         },
     }
 }
@@ -104,6 +105,12 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_USER")
+EMAIL_HOST_PASSWORD = 'inqpgglirodjfkdc'
 
 # Static files
 STATIC_URL = "static/"

@@ -36,7 +36,8 @@ export class SignupComponent {
         this.errorMessage = '';
       },
       (error) => {
-        this.errorMessage = error.error.error || 'Registration failed.';
+        console.error('Signup Error: ', error);
+        this.errorMessage = 'Registration failed. ' + (error.error.error || 'user already exists or give correct email');
         this.successMessage = '';
       }
     );
