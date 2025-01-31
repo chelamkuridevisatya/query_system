@@ -21,13 +21,13 @@ jobs:
 
       - name: Build and Push Backend
         run: |
-          docker build backend
+          docker build -t django-backend ./query_system
           docker tag django-backend:latest ${{ secrets.DOCKER_USERNAME }}/query_system/qs-django-backend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/query_system/qs-django-backend:latest
 
       - name: Build and Push Frontend
         run: |
-          docker build frontend
+          docker build -t angular-frontend ./angular_query_system
           docker tag angular-frontend:latest ${{ secrets.DOCKER_USERNAME }}/query_system/qs-angular-frontend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/query_system/qs-angular-frontend:latest
 
