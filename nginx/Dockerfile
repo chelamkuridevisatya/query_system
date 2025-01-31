@@ -5,7 +5,7 @@ FROM nginx:latest
 RUN rm /etc/nginx/nginx.conf
 
 # Copy your custom Nginx configuration
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.config /etc/nginx/nginx.config
 
 # Expose port 80
 EXPOSE 80
