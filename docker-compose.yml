@@ -3,7 +3,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./angular_query_system  # Point to the frontend directory
       dockerfile: Dockerfile
     container_name: frontend-app
     ports:
@@ -13,7 +13,7 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./query_system  # Point to the backend directory
       dockerfile: Dockerfile
     container_name: backend-app
     ports:
