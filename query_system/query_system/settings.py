@@ -10,6 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']  # Add your allowed hosts
 

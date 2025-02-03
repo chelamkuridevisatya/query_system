@@ -13,6 +13,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from api.models import CustomUser  # Import CustomUser model
 from nlmmm import chatbot  # Assuming chatbot logic is in nlmmm.py
+import asyncio
 import os
 from dotenv import load_dotenv
 
@@ -89,7 +90,7 @@ class QueryView(APIView):
         if not query:
             return Response({"error": "Query is missing."}, status=status.HTTP_400_BAD_REQUEST)
 
-        response = chatbot(query)
+        response = asyncio.run(chatbot(query))
         return Response({"response": response})
 
 

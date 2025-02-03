@@ -1,3 +1,6 @@
+import os
+import asyncio
+from dotenv import load_dotenv
 from pymongo import MongoClient
 from pydantic import BaseModel, PrivateAttr
 from langchain.prompts import PromptTemplate
@@ -5,14 +8,12 @@ from langchain_huggingface import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.agents import initialize_agent, AgentType
 from langchain.agents import Tool
-import os
-from dotenv import load_dotenv
+from functools import lru_cache
 
 load_dotenv()
 
-
 # MongoDB connection setup (adjust URI as needed)
-uri =  os.getenv("MONGO_CLUSTER_URI")
+uri = os.getenv("MONGO_CLUSTER_URI")
 client = MongoClient(uri)
 if not uri:
     raise ValueError("MONGO_URI is missing! Set it in the .env file.")
@@ -30,25 +31,25 @@ class MongoDBRetriever(BaseModel):
     _collection_name: str = PrivateAttr()
 
     def __init__(self, collection_name: str):
-        # Initialize the collection name for MongoDB
         super().__init__()
         self._collection_name = collection_name
 
     def _get_relevant_documents(self, query: str):
-        # Get the collection from the database using the collection name
         collection = db[self._collection_name]
-        
         try:
-            # Perform a text search on MongoDB and return relevant documents
-            documents = collection.find({"$text": {"$search": query}}).limit(5)  # Limit to 5 results
-            results = []
-            for doc in documents:
-                results.append(doc)  # Return documents as dictionaries (no need to json.dumps)
+            # Optimized MongoDB aggregation query with text score sorting
+            documents = collection.aggregate([
+                {"$match": {"$text": {"$search": query}}},
+                {"$project": {"score": {"$meta": "textScore"}, "fullplot": 1}},
+                {"$sort": {"score": -1}},
+                {"$limit": 5}
+            ])
+            results = [doc for doc in documents]
             return results if results else [{"answer": "Sorry, I couldn't find relevant information."}]
         except Exception as e:
             return [{"error": f"Error while fetching data from MongoDB: {str(e)}"}]
 
-# Define MongoDB retrievers for each collection (pass collection name as string)
+# Define MongoDB retrievers for each collection
 comments_retriever = MongoDBRetriever(collection_name="comments")
 movies_retriever = MongoDBRetriever(collection_name="movies")
 users_retriever = MongoDBRetriever(collection_name="users")
@@ -61,8 +62,7 @@ llm = HuggingFaceEndpoint(repo_id="EleutherAI/gpt-neo-1.3B", max_new_tokens=150)
 # Define a prompt template to inject retrieved documents into the LLM
 prompt_template = """
 Use the following documents to answer the user's query. 
-If the information is not found, provide a reasonable answer based on what is available. 
-
+If the information is not found, provide a reasonable answer based on what is available, relevent to the documents.
 Documents:
 {docs}
 
@@ -96,29 +96,45 @@ def preprocess_documents(documents):
     processed_docs = []
     for doc in documents:
         try:
-            # Directly access dictionary fields, no need to parse JSON
-            truncated_doc = doc.get('fullplot', '')[:500]  # Truncate to first 500 characters of 'fullplot'
+            # Truncate document to the first 500 characters of 'fullplot' or other relevant field
+            truncated_doc = doc.get('fullplot', '')[:500]  
             processed_docs.append(truncated_doc)
         except Exception as e:
             processed_docs.append(f"Error processing document: {str(e)}")
     return processed_docs
 
-# Function to interact with the chatbot
-def chatbot(query):
+# Caching for repeated queries
+@lru_cache(maxsize=128)
+def get_cached_documents(query):
     retrieved_docs = ""
     for tool in tools:
         docs = tool.func(query)  # Get documents for each tool
         docs = preprocess_documents(docs)  # Preprocess and limit size
         retrieved_docs += "\n".join([str(doc) for doc in docs])  # Concatenate docs
+    return retrieved_docs
+
+# Async function to handle chatbot queries
+async def fetch_documents_async(tool, query):
+    return await asyncio.to_thread(tool.func, query)
+
+# Function to generate response based on query and documents
+async def chatbot(query):
+    # Retrieve documents in parallel
+    tasks = [fetch_documents_async(tool, query) for tool in tools]
+    results = await asyncio.gather(*tasks)
+    
+    # Preprocess retrieved documents
+    docs = [preprocess_documents(res) for res in results]
+    retrieved_docs = "\n".join([str(doc) for doc in docs])
     
     try:
-        # Generate response based on smaller document chunks
+        # Generate response based on the processed documents
         response = llm_chain.run({"query": query, "docs": retrieved_docs})
         return response
     except Exception as e:
         return f"Error while generating response: {str(e)}"
 
-# Interactive part to take user input
+# Function to interact with the chatbot
 def run_chatbot():
     print("Welcome to the chatbot! Type 'exit' to quit.")
     while True:
@@ -127,7 +143,7 @@ def run_chatbot():
             print("Exiting chatbot. Goodbye!")
             break
         
-        response = chatbot(query)
+        response = asyncio.run(chatbot(query))
         print("Response:", response)
 
 # Test the chatbot with user input

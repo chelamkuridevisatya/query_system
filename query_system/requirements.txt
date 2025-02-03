@@ -10,5 +10,6 @@ django-allauth
 django-environ>=0.11.2  
 pydantic>=2.0 
 langchain>=0.1.0  
-langchain-huggingface>=0.1.0  
-gunicorn>=21.2.0
+langchain-huggingface>=0.1.0 
+gunicorn>=21.2.0  
+python-dotenv>=1.0.0
