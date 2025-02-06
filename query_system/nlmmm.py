@@ -57,8 +57,9 @@ sessions_retriever = MongoDBRetriever(collection_name="sessions")
 theaters_retriever = MongoDBRetriever(collection_name="theaters")
 
 # Create the language model using HuggingFace API (EleutherAI GPT-Neo)
-llm = HuggingFaceEndpoint(repo_id="EleutherAI/gpt-neo-1.3B", max_new_tokens=150)
+llm = HuggingFaceEndpoint(repo_id="EleutherAI/gpt-neo-2.7B", max_new_tokens=150)
 
+#llm = HuggingFaceEndpoint(repo_id="EleutherAI/gpt-j-6B", max_new_tokens=150)
 # Define a prompt template to inject retrieved documents into the LLM
 prompt_template = """
 Use the following documents to answer the user's query. 
